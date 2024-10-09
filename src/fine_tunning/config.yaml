@@ -1,0 +1,26 @@
+lora:
+  r: 4
+  lora_alpha: 16
+  target_modules:
+    - c_attn
+    - c_proj
+    - c_fc
+  lora_dropout: 0.1
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  fan_in_fan_out: true
+wandb:
+  project: "SFT-Jais-2"
+  log_model: true
+model:
+  model_id: "inceptionai/Jais-family-256m"
+dataset:
+  path:
+  data_dir: 
+trainer:
+  max_epochs: 2
+
+general:
+  mask_instruct: true
+  batch_size: 8
+  num_workers: 2
