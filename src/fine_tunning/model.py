@@ -2,19 +2,23 @@ from transformers import AutoModelForCausalLM
 import lightning as L
 from peft import LoraConfig, get_peft_model
 import torch
-
+from typing import Dict,Union,List
 
 class LitLMModel(L.LightningModule):
-    def __init__(self, model_path: str, lora_config: LoraConfig):
+    def __init__(self, model_path: str, lora_config: Dict[str,Union[str,List[str]]]):
         super(LitLMModel, self).__init__()
+        # save hyperparamters
+        self.save_hyperparameters()
         # Load base model from HF
         model = AutoModelForCausalLM.from_pretrained(
             model_path, device_map=self.device, trust_remote_code=True
         )
         # Freeze all paramters
         self._freeze_all_parameters(model)
+        # create config for Lora 
+        self.config = LoraConfig(**lora_config)
         # apply optimization from PEFT
-        self.model = get_peft_model(model, lora_config)
+        self.model = get_peft_model(model, self.config)
         # Loss function
         self.metric = torch.nn.CrossEntropyLoss()
 
