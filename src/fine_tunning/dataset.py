@@ -12,7 +12,7 @@ class CustomInstructDataset(Dataset):
     def __init__(
         self, data: HFDataset, tokenizer: AutoTokenizer, formater: Callable[[str], str]
     ):
-        super(CustomInstructDataset, self).__init__()
+        super().__init__()
         self.data = data
         self.tokenizer = tokenizer
         self.formater = formater
