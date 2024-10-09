@@ -1,0 +1,21 @@
+[project]
+name = "arabic-text-summarizer"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+
+dependencies = [
+    "fastapi==0.82.0",
+    "flask==2.2.2",
+    "itsdangerous==2.1.2",
+    "jinja2==3.1.2",
+    "markupsafe==2.1.1",
+    "pandas>=2.2.3",
+    "pydantic==1.10.2",
+    "pytest-cov==3.0.0",
+    "requests==2.28.1",
+    "starlette==0.19.1",
+    "uvicorn==0.18.3",
+    "werkzeug==2.2.2",
+]
