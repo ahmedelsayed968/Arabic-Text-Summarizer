@@ -113,7 +113,7 @@ def custom_callate(
     allowed_max_length=128,
     mask_instruct=False,
 ):
-    max_batch_len = max([len(entry[0]) + len(entry[1]) + 1 for entry in batch])
+    max_batch_len = max(len(entry[0]) + len(entry[1]) + 1 for entry in batch)
     inputs = []
     targets = []
     for instruct, response in batch:
