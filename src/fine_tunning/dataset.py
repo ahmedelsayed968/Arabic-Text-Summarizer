@@ -194,3 +194,45 @@ def get_data_for_training(
         num_workers=config["num_workers"],
     )
     return ds_loader
+
+
+def get_data_for_inference(
+    ds: HFDataset,
+    tokenizer: AutoTokenizer,
+    formater: Callable[[str], str],
+    config: Dict[str, Any],
+) -> DataLoader:
+    """
+    Prepares a DataLoader for inference from a given Hugging Face dataset.
+
+    Args:
+        ds (HFDataset): The dataset containing the test data to be used for inference.
+        tokenizer (AutoTokenizer): The tokenizer used to convert model instructions
+                                   into input IDs.
+        formater (Callable[[str], str]): A function that formats the input text to
+                                          the desired instruction format.
+        config (Dict[str, Any]): A configuration dictionary containing parameters such as
+                                  'batch_size' and 'num_workers'.
+
+    Returns:
+        DataLoader: A DataLoader instance configured for the inference dataset,
+                     with batched inputs and collated outputs.
+
+    Notes:
+        - The function sets a manual seed for reproducibility.
+        - It uses a custom collate function to handle the input processing for the model.
+        - The DataLoader is configured to not shuffle the dataset and does not drop the last
+          batch, ensuring all data points are used during inference.
+    """
+    torch.manual_seed(123)
+    custom_collate_fn = partial(custom_callate_inference, tokenizer=tokenizer)
+    custom_ds = CustomInstructDataset(ds["test"], tokenizer, formater=formater)
+    ds_loader = DataLoader(
+        custom_ds,
+        batch_size=config["batch_size"],
+        collate_fn=custom_collate_fn,
+        shuffle=False,
+        drop_last=False,
+        num_workers=config["num_workers"],
+    )
+    return ds_loader
