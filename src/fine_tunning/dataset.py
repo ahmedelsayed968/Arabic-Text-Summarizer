@@ -1,4 +1,4 @@
-from typing import Dict, Any, Callable
+from typing import Dict, Any, Callable, List, Tuple
 from functools import partial
 import torch
 from torch.utils.data import Dataset, DataLoader
@@ -64,6 +64,46 @@ class CustomInstructInferenceDataset(Dataset):
         entry = self.data[index]
         model_instruction = self.formater(entry)
         return (model_instruction, entry["response"])
+
+
+def custom_callate_inference(batch: List[Tuple[str, str]], tokenizer: AutoTokenizer):
+    """
+    Custom collate function for processing a batch of model instructions and
+    their corresponding responses for inference.
+
+    Args:
+        batch (list): A list of tuples, where each tuple contains a model
+                      instruction (str) and a response (str).
+        tokenizer (AutoTokenizer): The tokenizer used to convert model instructions
+                                   into input IDs suitable for the model.
+
+    Returns:
+        dict: A dictionary containing:
+            - 'input_ids' (torch.Tensor): A tensor of tokenized model instructions,
+              with padding and truncation applied.
+            - 'responses' (list): A list of responses corresponding to the model
+              instructions, preserving their original order.
+
+    Note:
+        This function ensures that model instructions are tokenized and padded to
+        the same length, making them ready for input into a model during inference.
+    """
+    # Separate model instructions and responses
+    model_instructions, responses = zip(*batch)
+
+    # Tokenize model instructions
+    tokenized_inputs = tokenizer(
+        list(model_instructions),  # Ensure inputs are a list
+        padding=True,
+        truncation=True,
+        return_tensors="pt",
+    )
+
+    # Return the tokenized inputs and responses
+    return {
+        "input_ids": tokenized_inputs["input_ids"],
+        "responses": list(responses),  # Ensure responses are a list
+    }
 
 
 def custom_callate(
