@@ -1,6 +1,4 @@
-from typing import (Dict,
-                     Any,
-                     Callable)
+from typing import Dict, Any, Callable
 from functools import partial
 import torch
 from torch.utils.data import Dataset, DataLoader
@@ -28,6 +26,44 @@ class CustomInstructDataset(Dataset):
             self.tokenizer.encode(model_instruction),
             self.tokenizer.encode(desired_response),
         )
+
+
+class CustomInstructInferenceDataset(Dataset):
+    """
+    A custom dataset class for inference, designed to provide model instructions
+    and their corresponding responses from a Hugging Face dataset.
+
+    Args:
+        data (HFDataset): A Hugging Face dataset containing the data entries,
+                          each entry should have an 'response' field.
+        tokenizer (AutoTokenizer): The tokenizer used for processing input text.
+        formater (Callable[[str], str]): A function that formats the input text
+                                          to the desired instruction format.
+
+    Methods:
+        __len__() -> int:
+            Returns the total number of entries in the dataset.
+
+        __getitem__(index: int) -> Tuple[str, str]:
+            Retrieves the formatted instruction and the corresponding response
+            for the specified index.
+    """
+
+    def __init__(
+        self, data: HFDataset, tokenizer: AutoTokenizer, formater: Callable[[str], str]
+    ):
+        super().__init__()
+        self.data = data
+        self.tokenizer = tokenizer
+        self.formater = formater
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, index):
+        entry = self.data[index]
+        model_instruction = self.formater(entry)
+        return (model_instruction, entry["response"])
 
 
 def custom_callate(
@@ -96,7 +132,7 @@ def get_data_for_training(
     Returns:
         DataLoader: A DataLoader instance that yields batches of formatted input data
         ready for model training.
-    
+
     Note:
         This function sets a manual seed for reproducibility and uses a customized
         collate function to handle batch formation.
