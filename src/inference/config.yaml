@@ -1,0 +1,9 @@
+inference:
+  checkpoint: 'gp234/SFT-Jais-2/model-derc9xfk:v0'
+  prediction_path: "."
+generation:
+  top_p: 0.9
+  temperature: 0.3
+  max_length: 2048
+  repetition_penalty: 1.2
+  do_sample: true
