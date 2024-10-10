@@ -62,3 +62,12 @@ class LitLMModel(L.LightningModule):
     def configure_optimizers(self):
         optimizer = torch.optim.AdamW(self.parameters(), lr=4.21e-05, weight_decay=0.1)
         return optimizer
+
+    def predict(self,batch,**kwargs):
+
+        generate_ids = self.model.generate(
+                              batch.to(self.device),
+                              **kwargs
+                        )
+
+        return generate_ids
