@@ -1,33 +1,19 @@
 # Arabic-Text-Summarizer
 
+## Results
+### Decoder-ONLY Models
+- inceptionai/Jais-family-256m
+  ![img](/assets/decoder-outputs.png)
+  ![img](/assets/W&B%20Chart%2010_10_2024,%2007_14_57.png)
+  ![img](/assets/W&B%20Chart%2010_10_2024,%2007_16_15.png)
+  ![img](/assets/W&B%20Chart%2010_10_2024,%2007_18_26.png)
+  | Metric   | Score                  |
+  |----------|------------------------|
+  | rouge1   | 0.024213605715402403   |
+  | rouge2   | 0.0014741946283852877  |
+  | rougeL   | 0.024084952075629662   |
+  | rougeLsum| 0.02407977715402647    |
 
- 
-
-The code template considers following phases in ML project development lifecycle:  
-Requirement gathering    
-Data Collection   
-Model Building   
-Inference   
-Testing     
-Deployment   
-
-
-During typical ML project lifecycle,this code template can be used in following way:   
-1. Keep all Requirement gathering documents in docs folder.       
-2. Keep Data Collection and exploration notebooks  in src/training folder.  
-3. Keep datasets in data folder.    
-4. Keep model building notebooks at src/training folder.      
-5. Keep generated model files at src/models.  
-6. Write and keep inference code in src/inference.   
-7. Write Logging and configuration code in src/utility.      
-8. Write unit test cases in tests folder.<a href="https://docs.pytest.org/en/7.1.x/">pytest</a>,<a href="https://pytest-cov.readthedocs.io/en/latest/readme.html">pytest-cov</a>    
-9. Write performance test cases in tests folder.<a href="https://locust.io/">locust</a>     
-10. Build docker image.<a href="https://www.docker.com/">Docker</a>  
-11. Use and configure code formatter.<a href="https://black.readthedocs.io/en/stable/">black</a>     
-12. Use and configure code linter.<a href="https://pylint.pycqa.org/en/latest/">pylint</a>     
-13. Add Git Pre-commit hooks.     
-14. Use Circle Ci for CI/CD.<a href="https://circleci.com/developer">Circlci</a>    
- 
 
 ## Project Organization
 
