@@ -1,5 +1,29 @@
 # Arabic-Text-Summarizer
 
+## Analysis
+### Document Analysis
+![img](/assets/analysis1png.png)
+![img](/assets/analysis2.png)
+  - distribution is right skewed
+  - the distribution of train,val,train are the same that indicate they are caming from the same source
+  - rare data points that have length greater than 2000 tokens length.
+### Summaries Analysis
+![img](/assets/analysis3.png)
+  - Right Skewed.
+  - Most data points have 35-40 tokens in summary.
+  - almost Identical distribution for the 3 splits.
+### Document Title Analysis
+![img](/assets/analysis4.png)
+![img](/assets/anslysis4.1.png)
+  - doesn't suffer from skeweness problem
+  - most articles have 8-10 tokens length in title
+  - 50% of the data points have less than 10 tokens in the title
+  
+### English Words Analysis
+![img](/assets/analysis5.png)
+### Most Repeated Words
+![img](/assets/analysis6.png)
+
 ## Results
 ### Decoder-ONLY Models
 - inceptionai/Jais-family-256m
